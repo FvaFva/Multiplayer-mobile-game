@@ -2,7 +2,7 @@ using DG.Tweening;
 using UnityEngine;
 using Zenject;
 
-public class PlayerMovement : IState
+public class UnitMovement : IUnitState
 {
     private const float _rotateTime = 1f;
 
@@ -14,7 +14,7 @@ public class PlayerMovement : IState
 
     private float _speed;
 
-    public PlayerMovement(Rigidbody rigidBody, float speed, Animator animator)
+    public UnitMovement(Rigidbody rigidBody, float speed, Animator animator)
     {
         _rigidBody = rigidBody;
         _speed = speed;

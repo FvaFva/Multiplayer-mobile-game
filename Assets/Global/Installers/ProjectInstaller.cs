@@ -15,7 +15,7 @@ public class ProjectInstaller : MonoInstaller
 
     private void NetworkBinding()
     {
-        Container.Bind<PlayersInLobby>().FromNew().AsSingle().NonLazy();
+        Container.Bind<LocalPlayerRouter>().FromNew().AsSingle().NonLazy();
         Container.Bind<MatchConnector>().FromNew().AsSingle().NonLazy();
     }
 }

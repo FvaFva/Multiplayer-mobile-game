@@ -398,17 +398,17 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6102694495913393315, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: NaN
+      objectReference: {fileID: 0}
     - target: {fileID: 6102694495924430482, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6102694495985875245, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
       propertyPath: m_fontSize
-      value: 34.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6102694496153330904, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
-      propertyPath: m_ScaleFactor
-      value: 1
+      value: 39.25
       objectReference: {fileID: 0}
     - target: {fileID: 6102694496153330906, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
       propertyPath: m_Pivot.x
@@ -494,17 +494,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6102694496153330907, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
-      propertyPath: sceneId
-      value: 2653023128
-      objectReference: {fileID: 0}
     - target: {fileID: 6102694496153330910, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
       propertyPath: m_Name
       value: LobbyMenu
       objectReference: {fileID: 0}
     - target: {fileID: 6102694496200284525, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
       propertyPath: m_fontSize
-      value: 51.75
+      value: 59.4
       objectReference: {fileID: 0}
     - target: {fileID: 6102694496579322052, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
       propertyPath: m_Value
@@ -512,15 +508,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6102694496847074446, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
       propertyPath: m_fontSize
-      value: 29.8
+      value: 34.2
       objectReference: {fileID: 0}
     - target: {fileID: 6102694496881613836, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000030517578
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 6102694496935168762, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
       propertyPath: m_fontSize
-      value: 29.8
+      value: 34.2
       objectReference: {fileID: 0}
     - target: {fileID: 6102694497984509011, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
       propertyPath: m_AnchorMax.x
@@ -533,6 +529,10 @@ PrefabInstance:
     - target: {fileID: 6102694497984509011, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sceneId
+      value: 2223616167
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc3b5fe71ce5ed742bcc61794c52f7ef, type: 3}

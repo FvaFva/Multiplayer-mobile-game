@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerSkin: MonoBehaviour
+public class UnitSkin: MonoBehaviour
 {
     public void Activate()
     {

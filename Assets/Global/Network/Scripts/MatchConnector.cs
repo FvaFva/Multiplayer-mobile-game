@@ -1,32 +1,28 @@
 ﻿using Mirror;
 using System;
 
-public class MatchConnector
+public class MatchConnector 
 {
-    private readonly MatchesPool _matches = new MatchesPool();
+    [SyncVar] private readonly MatchesPool _matches = new MatchesPool();
     private readonly Random _random = new Random();
 
     private TurnManager _turnManager;
 
-    public event Action Hosted;
-    public event Action<bool> TriedJoin;
-    public event Action Began;
-
-    public void BindTurnManager(TurnManager prefab) 
-    { 
+    public void BindTurnManager(TurnManager prefab)
+    {
         _turnManager ??= prefab;
     }
 
-    public string Host(Player host)
+    [Command]
+    public Match CmdHost(Player host)
     {
         string id = GetRandomID();
-        Match match = _matches.CreateMatch(id);
-        match.AddPlayer(host);
-        Hosted?.Invoke();
-        return id;
+        Match match = _matches.CreateMatch(id, host);
+        return match;
     }
 
-    public bool TryJoin(string id, Player guest)
+    [Command]
+    public bool CmdTryJoin(string id, Player guest)
     {
         Match foundMatch = _matches.GetMatch(id);
         bool found;
@@ -41,11 +37,11 @@ public class MatchConnector
             found = false;
         }
 
-        TriedJoin?.Invoke(found);
         return found;
     }
 
-    public void BeginGame(string id)
+    [Command]
+    public void CmdBeginGame(string id)
     {
         Match foundMatch = _matches.GetMatch(id);
 

@@ -1,10 +1,9 @@
-using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class LobbyMenu : NetworkBehaviour
+public class LobbyMenu : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _inputField;
     [SerializeField] private Button _hostButton;
@@ -15,66 +14,42 @@ public class LobbyMenu : NetworkBehaviour
     [SerializeField] private TMP_Text _idText;
     [SerializeField] private Button _beginButton;
 
-    [Inject] private readonly PlayersInLobby _playersInLobby;
-    [Inject] private readonly MatchConnector _matchConnector;
+    [Inject] private LocalPlayerRouter _local;
 
     public bool InGame { get; private set; }
 
     private void OnEnable()
     {
-        _playersInLobby.IncomeGuest += SpawnPlayerUIPrefab;
-        _matchConnector.Hosted += OnHostMatch;
-        _matchConnector.TriedJoin += OnJoinToGame;
+        _local.IncomeInMatch += ShowMatch;
     }
 
     private void OnDisable()
     {
-        _playersInLobby.IncomeGuest -= SpawnPlayerUIPrefab;
-        _matchConnector.Hosted -= OnHostMatch;
-        _matchConnector.TriedJoin -= OnJoinToGame;
+        _local.IncomeInMatch -= ShowMatch;
     }
 
     public void Host()
     {
         SetInteractableMainElements(false);
-        _playersInLobby.Local.HostGame();
+        _local.HostMatch();
     }
     
     public void Join()
     {
         SetInteractableMainElements(false);
-        _playersInLobby.Local.JoinGame(_inputField.text.ToUpper());
     }
 
     public void StartGamer()
     {
-        _playersInLobby.Local.BeginGame();
     }
 
-    public void ChangeGameState(bool inGame)
-    {
-        InGame = inGame;
-    }
-
-    private void OnHostMatch()
+    public void ShowMatch(MatchInfo match)
     {
         _lobbyCanvas.enabled = true;
-        _beginButton.interactable = true;
-    }
+        _idText.text = match.ID;
 
-    private void OnJoinToGame(bool success)
-    {
-        if (success)
-        {
-            _lobbyCanvas.enabled = true;
-            SpawnPlayerUIPrefab(_playersInLobby.Local);
-            _idText.text = _playersInLobby.Local.MatchID.ToString();
-            _beginButton.interactable = false;
-        }
-        else
-        {
-            SetInteractableMainElements(true);
-        }
+        foreach(Player player in match.Players)
+            SpawnPlayerUIPrefab(player);
     }
 
     private void SetInteractableMainElements(bool interactable)

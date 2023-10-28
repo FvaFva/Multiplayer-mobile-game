@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerRelax : IState
+public class UnitRelax : IUnitState
 {
     private readonly float _animationSwapDelay;
     private readonly List<int> _animationsHashes;
@@ -10,7 +10,7 @@ public class PlayerRelax : IState
 
     private float _animationSwapCurrentDelay;
 
-    public PlayerRelax(Animator animator, float secondsAnimationSwapDelay, int countAnimations) 
+    public UnitRelax(Animator animator, float secondsAnimationSwapDelay, int countAnimations) 
     {
         _animationSwapDelay = secondsAnimationSwapDelay;
         _animationsHashes = new List<int>();

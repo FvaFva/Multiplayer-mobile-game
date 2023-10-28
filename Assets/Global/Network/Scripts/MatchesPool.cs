@@ -14,9 +14,10 @@ public class MatchesPool
         return _matches.Where(match => match.ID.Equals(id)).FirstOrDefault();
     }
 
-    public Match CreateMatch(string id)
+    public Match CreateMatch(string id, Player host)
     {
-        Match newMatch = new Match(id);
+        Match newMatch = new Match();
+        newMatch.Host(host, id);
         _matches.Add(newMatch);
         return newMatch;
     }

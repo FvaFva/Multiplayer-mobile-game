@@ -2,19 +2,19 @@
 using UnityEngine;
 using Zenject;
 
-public class PlayerStateMachine
+public class UnitStateMachine
 {
     private const float _fPSLock = 0.01f;
 
-    private readonly IState _base;
-    private readonly IState _movement;
+    private readonly IUnitState _base;
+    private readonly IUnitState _movement;
     private readonly WaitForSeconds _delay = new WaitForSeconds(_fPSLock);
 
     [Inject] private UserInputRouter _inputRouter;
 
-    private IState _current;
+    private IUnitState _current;
 
-    public PlayerStateMachine(IState baseState, IState movement)
+    public UnitStateMachine(IUnitState baseState, IUnitState movement)
     {
         _base = baseState;
         _current = baseState;
@@ -47,7 +47,7 @@ public class PlayerStateMachine
         _current.Exit();
     }
 
-    private void EnterState(IState state)
+    private void EnterState(IUnitState state)
     {
         _current.Exit();
         _current = state;

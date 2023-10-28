@@ -10,6 +10,6 @@ public class UserView : MonoBehaviour
     public void SetPlayer(Player player)
     {
         _player = player;
-        _playerName.text = "Name";
+        _playerName.text = _player.netIdentity.netId.ToString();
     }
 }

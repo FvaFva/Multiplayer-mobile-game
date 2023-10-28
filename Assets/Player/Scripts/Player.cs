@@ -3,94 +3,42 @@ using Mirror;
 using Zenject;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(Rigidbody), typeof(NetworkMatch))]
+[RequireComponent(typeof(NetworkMatch))]
 public class Player : NetworkBehaviour
 {
-    [SerializeField] private float _speed;
-    [SerializeField] private Animator _animator;
-    [SerializeField] private string _playSceneName;
-    [SerializeField] private PlayerSkin _skin;
+    private const string PlaySceneName = "PlayArea";
 
-    [Inject] private UserInputRouter _inputRouter;
-    [Inject] private DiContainer _container;
-    [Inject] private PlayersInLobby _playersInLobby;
+    [SerializeField] private Unit _unit;
+
+    [Inject] private LocalPlayerRouter _local;
     [Inject] private MatchConnector _matchConnector;
+    [Inject] private DiContainer _container;
 
-    [SyncVar] private string _matchID;
+    [SyncVar(hook = nameof(HandleIdUpdate))] private string _matchID;
 
-    private Rigidbody _rigidBody;
-    private Coroutine _exist; 
-    private PlayerStateMachine _machine;
-    private NetworkMatch _match;
-
-    public string MatchID => _matchID;
+    private NetworkMatch _networkMatch;
 
     private void Awake()
     {
-        if (TryGetComponent(out Rigidbody tempRigidBody) && TryGetComponent(out NetworkMatch tempMatch))
+        if (TryGetComponent(out NetworkMatch tempMatch))
         {
-            _rigidBody = tempRigidBody;
-            _match = tempMatch;
+            _networkMatch = tempMatch;
         }
         else
         {
             gameObject.SetActive(false);
         }
-
         this.UpdateInjections();
-
-        if (isLocalPlayer == false)
-            _playersInLobby.AddPlayer(this);
     }
 
-    public void HostGame()
+    public void HostMatch()
     {
-        CmdHostGame();
-    }
-
-    [Command]
-    private void CmdHostGame()
-    {
-        _matchID = _matchConnector.Host(this);
-        Debug.Log("Lobby have just created");
-        _match.matchId = _matchID.ToGuid();
-        TargetHostGame(_matchID);
-    }
-
-    [TargetRpc]
-    private void TargetHostGame(string id)
-    {
-        _matchID = id;
-        Debug.Log($"TargetHostGame {id}");
+        CmdHostMatch();
     }
 
     public void JoinGame(string matchID)
     {
-        CmdJoinGame(matchID);
-    }
-
-    [Command]
-    private void CmdJoinGame(string id)
-    {
-        _matchID = id;
-        if (_matchConnector.TryJoin(id, this))
-        {
-            Debug.Log("Lobby have just create");
-            _match.matchId = id.ToGuid();
-            TargetJoinGame(true, id);
-        }
-        else
-        {
-            Debug.Log("Lobby creating was failed");
-            TargetJoinGame(true, id);
-        }
-    }
-
-    [TargetRpc]
-    private void TargetJoinGame(bool success, string id)
-    {
-        _matchID = id;
-        Debug.Log($"TargetJoinGame {id}");
+        ServerJoinGame(matchID);
     }
 
     public void BeginGame()
@@ -103,56 +51,67 @@ public class Player : NetworkBehaviour
         TargetBeginGame();
     }
 
+    #region Commands
+    [Command]
+    private void CmdHostMatch()
+    {
+        Match match = _matchConnector.CmdHost(this);
+        _matchID = match.ID;
+        _networkMatch.matchId = _matchID.ToGuid();
+        MatchInfo info = new MatchInfo();
+        info.ID = _matchID;
+        info.LoadPlayers(match.Players);
+        Debug.Log(info.Players.Count);
+    }
+
+    [Command]
+    private void ServerJoinGame(string id)
+    {
+        _matchID = id;
+        if (_matchConnector.CmdTryJoin(id, this))
+        {
+            Debug.Log($"You have just connected to {_matchID}");
+            _networkMatch.matchId = id.ToGuid();
+        }
+        else
+        {
+            Debug.Log("Lobby connecting was failed");
+        }
+    }
+
     [Command]
     private void CmdBeginGame()
     {
-        _matchConnector.BeginGame(_matchID);
+        _matchConnector.CmdBeginGame(_matchID);
         Debug.Log("Game have started");
+    }
+    #endregion
+
+    #region Client
+    private void HandleIdUpdate(string oldId, string newId)
+    {
+        _matchID = newId;
+        Debug.Log($"Player client take new match id {newId}");
+    }
+
+    [TargetRpc]
+    private void ShowMatchInfo(MatchInfo match)
+    {
+        _local.ShowMatchInfo(match);
     }
 
     [TargetRpc]
     private void TargetBeginGame()
     {
         Debug.Log($"TargetJoinGame {_matchID}");
-        StartPlaySystem();
-        SceneManager.LoadScene(_playSceneName);
+        var unit = _container.InstantiatePrefab(_unit.gameObject);
+        SceneManager.LoadScene(PlaySceneName);
+        NetworkServer.Spawn(unit);
     }
 
     public override void OnStartAuthority()
     {
-        LoadLocalData();
+        _local.SetLocal(this);
     }
-
-    public override void OnStopAuthority()
-    {
-        StopPlaySystem();
-    }
-
-    private void StopPlaySystem()
-    {
-        _machine.Stop();
-        _skin.Deactivate();
-        _rigidBody.isKinematic = true;
-        StopCoroutine(_exist);
-    }
-
-    private void LoadLocalData()
-    {
-        PlayerMovement movement = new PlayerMovement(_rigidBody, _speed, _animator);
-        PlayerRelax relax = new PlayerRelax(_animator, 3f, 2);
-        _machine = new PlayerStateMachine(relax, movement);
-        _container.Inject(movement);
-        _container.Inject(relax);
-        _container.Inject(_machine);
-        _playersInLobby.SetLocal(this);
-    }
-
-    private void StartPlaySystem()
-    {
-        _skin.Activate();
-        _rigidBody.isKinematic = true;
-        _inputRouter.StartSearchNewDirection();
-        _machine.Start();
-        _exist = StartCoroutine(_machine.Exist());
-    }
+    #endregion
 }

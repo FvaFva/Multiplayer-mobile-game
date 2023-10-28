@@ -12,7 +12,7 @@ public class LobbySceneInstaller : MonoInstaller
     {
         _matchConnector.BindTurnManager(_turnManager);
 
-        Container.Bind<LobbyMenu>().FromInstance(_lobbyMenu).AsSingle();
+        Container.Bind<LobbyMenu>().FromInstance(_lobbyMenu).AsSingle().NonLazy();
         Container.QueueForInject(_lobbyMenu);
     }
 }

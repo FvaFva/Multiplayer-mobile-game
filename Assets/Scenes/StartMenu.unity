@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &179528511 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4823236925970188687, guid: 09e3e2b04c591c14ab7792ab8252391f, type: 3}
+  m_PrefabInstance: {fileID: 1843328858}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f80ef423aeec65b4bb96084b1bcc9787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &193631556
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +320,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 179528511}
         m_TargetAssemblyTypeName: Mirror.NetworkManager, Mirror
         m_MethodName: StartClient
         m_Mode: 1
@@ -443,7 +454,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 487142712}
+      - m_Target: {fileID: 179528511}
         m_TargetAssemblyTypeName: Mirror.NetworkManager, Mirror
         m_MethodName: StartHost
         m_Mode: 1
@@ -610,7 +621,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40.5
+  m_fontSize: 46.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -660,17 +671,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 443259931}
   m_CullTransparentMesh: 1
---- !u!114 &487142712 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 598744991521855915, guid: 09e3e2b04c591c14ab7792ab8252391f, type: 3}
-  m_PrefabInstance: {fileID: 2001194168}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8aab4c8111b7c411b9b92cf3dbc5bd4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &882852566
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,7 +840,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40.5
+  m_fontSize: 46.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1031,7 +1031,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &2001194168
+--- !u!1001 &1843328858
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1040,7 +1040,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 598744991521855894, guid: 09e3e2b04c591c14ab7792ab8252391f, type: 3}
       propertyPath: m_Name
-      value: NetworkManager
+      value: Network
       objectReference: {fileID: 0}
     - target: {fileID: 598744991521855914, guid: 09e3e2b04c591c14ab7792ab8252391f, type: 3}
       propertyPath: m_RootOrder
@@ -1086,21 +1086,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 598744991521855915, guid: 09e3e2b04c591c14ab7792ab8252391f, type: 3}
-      propertyPath: onlineScene
-      value: Assets/Scenes/Lobby.unity
-      objectReference: {fileID: 0}
-    - target: {fileID: 598744991521855915, guid: 09e3e2b04c591c14ab7792ab8252391f, type: 3}
-      propertyPath: offlineScene
-      value: Assets/Scenes/StartMenu.unity
-      objectReference: {fileID: 0}
-    - target: {fileID: 598744991521855915, guid: 09e3e2b04c591c14ab7792ab8252391f, type: 3}
-      propertyPath: spawnPrefabs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 598744991521855915, guid: 09e3e2b04c591c14ab7792ab8252391f, type: 3}
-      propertyPath: spawnPrefabs.Array.data[0]
+    - target: {fileID: 4823236925970188687, guid: 09e3e2b04c591c14ab7792ab8252391f, type: 3}
+      propertyPath: playerPrefab
       value: 
-      objectReference: {fileID: 872792887060593333, guid: 0327c559fbc0bf447a02ebffaee2cdfb, type: 3}
+      objectReference: {fileID: 4462944785388452999, guid: 457ee302954bb7b4380f7c1bcc49d4d6, type: 3}
+    - target: {fileID: 4823236925970188687, guid: 09e3e2b04c591c14ab7792ab8252391f, type: 3}
+      propertyPath: autoStartServerBuild
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09e3e2b04c591c14ab7792ab8252391f, type: 3}
